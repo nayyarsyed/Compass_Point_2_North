@@ -13,6 +13,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 public class MainActivity extends Activity implements SensorEventListener {
@@ -62,14 +63,9 @@ public class MainActivity extends Activity implements SensorEventListener {
                 .getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
         // Exit unless both sensors are available
-        if (null == accelerometer )
-            Toast.makeText(  this, "The Phone does not have Accelerometer Sensor ",
-                    Toast.LENGTH_LONG ).show();
-
-        if    ( null == magnetometer)
-            Toast.makeText(  this, "The Phone does not have Magnetometer Sensor ",
-                    Toast.LENGTH_LONG ).show();
-            finish();
+        if (null == accelerometer || null == magnetometer) {
+            Toast.makeText(  this, "The Phone does not have one of the required sensor or sensors are not working", Toast.LENGTH_LONG ).show();
+            finish(); }
 
     }
 
