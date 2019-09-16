@@ -13,7 +13,6 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 public class MainActivity extends Activity implements SensorEventListener {
@@ -32,10 +31,8 @@ public class MainActivity extends Activity implements SensorEventListener {
     // Storage for Sensor readings
     private float[] mGravity = null;
     private float[] mGeomagnetic = null;
-
     // Rotation around the Z axis
     private double mRotationInDegress;
-
     // View showing the compass arrow
     private CompassArrowView mCompassArrow;
 
@@ -45,12 +42,9 @@ public class MainActivity extends Activity implements SensorEventListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mFrame = (LinearLayout)findViewById(R.id.frame);
-
+        mFrame = findViewById(R.id.frame);
         mCompassArrow = new CompassArrowView(getApplicationContext());
-
         mFrame.addView(mCompassArrow);
-
         // Get a reference to the SensorManager
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
@@ -64,7 +58,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 
         // Exit unless both sensors are available
         if (null == accelerometer || null == magnetometer) {
-            Toast.makeText(  this, "The Phone does not have one of the required sensor or sensors are not working", Toast.LENGTH_LONG ).show();
+            Toast.makeText(  this, "The Phone does not have one of the required sensor " +
+                    "or sensors are not working", Toast.LENGTH_LONG ).show();
             finish(); }
 
     }
