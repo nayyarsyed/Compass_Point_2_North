@@ -12,7 +12,9 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity implements SensorEventListener {
@@ -41,10 +43,10 @@ public class MainActivity extends Activity implements SensorEventListener {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        TextView status =findViewById(R.id.status);
         mFrame = findViewById(R.id.frame);
+        Button exit_button = findViewById(R.id.btn_exit);
         mCompassArrow = new CompassArrowView(getApplicationContext());
-        mFrame.addView(mCompassArrow);
         // Get a reference to the SensorManager
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
@@ -56,13 +58,47 @@ public class MainActivity extends Activity implements SensorEventListener {
         magnetometer = mSensorManager
                 .getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
-        // Exit unless both sensors are available
-        if (null == accelerometer || null == magnetometer) {
-            Toast.makeText(  this, "The Phone does not have one of the required sensor " +
-                    "or sensors are not working", Toast.LENGTH_LONG ).show();
-            finish(); }
+//        accelerometer = null;
+//        magnetometer = null;
 
-    }
+        exit_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View exit_button_view) {
+                  finish();
+            }
+        });
+
+        // Exit unless both sensors are available
+        if (null == accelerometer & null == magnetometer ) {
+
+            status.setText("Magnetometer and Accelerometer both sensors  not found cannot run");
+            exit_button.setEnabled(true);
+
+        } else if (null == magnetometer) {
+
+            status.setText("Magnetometer not found cannot run");
+            exit_button.setEnabled(true);
+
+
+        } else if (null == accelerometer ) {
+
+
+            status.setText("Accelerometer not found cannot run");
+            exit_button.setEnabled(true);
+
+        } else {
+
+            mFrame.addView(mCompassArrow);
+            status.setText("");
+            exit_button.setEnabled(false);
+            exit_button.setVisibility(View.INVISIBLE);
+
+        }
+
+        }
+
+
+
 
     @Override
     protected void onResume() {
@@ -84,6 +120,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 
         // Unregister all sensors
         mSensorManager.unregisterListener(this);
+        Toast.makeText(this, "Accelerometer and Magnetometer Dis-engaged", Toast.LENGTH_LONG).show();
 
     }
 
@@ -160,7 +197,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     public class CompassArrowView extends View {
 
         Bitmap mBitmap = BitmapFactory.decodeResource(getResources(),
-                R.drawable.arrow);
+                R.drawable.compass_medium);
         int mBitmapWidth = mBitmap.getWidth();
 
         // Height and Width of Main View
