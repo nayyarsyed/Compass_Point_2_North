@@ -89,9 +89,9 @@ public class MainActivity extends Activity implements SensorEventListener {
         } else {
 
             mFrame.addView(mCompassArrow);
-            status.setText("");
-            exit_button.setEnabled(false);
-            exit_button.setVisibility(View.INVISIBLE);
+//            status.setText("");
+//            exit_button.setEnabled(false);
+//            exit_button.setVisibility(View.INVISIBLE);
 
         }
 
