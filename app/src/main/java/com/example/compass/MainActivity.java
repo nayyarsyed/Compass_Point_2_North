@@ -16,6 +16,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 public class MainActivity extends Activity implements SensorEventListener {
 
@@ -29,6 +32,9 @@ public class MainActivity extends Activity implements SensorEventListener {
     private Sensor accelerometer;
     private Sensor magnetometer;
     private SensorManager mSensorManager;
+
+
+
 
     // Storage for Sensor readings
     private float[] mGravity = null;
@@ -53,6 +59,14 @@ public class MainActivity extends Activity implements SensorEventListener {
         // Get a reference to the accelerometer
         accelerometer = mSensorManager
                 .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        // ad placement
+        MobileAds.initialize(this,"ca-app-pub-6944210613333060~1927348080");
+        AdView compass_ad = findViewById(R.id.adView);
+//        av.setAdSize(AdSize.BANNER);
+//        av.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
+        AdRequest comp_adreq = new AdRequest.Builder().build();
+        compass_ad.loadAd(comp_adreq);
+
 
         // Get a reference to the magnetometer
         magnetometer = mSensorManager
