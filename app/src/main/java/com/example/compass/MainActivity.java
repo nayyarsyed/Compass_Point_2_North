@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 
@@ -24,17 +25,14 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     @SuppressWarnings("unused")
     private String TAG = "SensorCompass";
-
+    public int both;
     // Main View
     private LinearLayout mFrame;
-
     // Sensors & SensorManager
     private Sensor accelerometer;
     private Sensor magnetometer;
     private SensorManager mSensorManager;
-
-
-
+    public TextView status;
 
     // Storage for Sensor readings
     private float[] mGravity = null;
@@ -49,9 +47,9 @@ public class MainActivity extends Activity implements SensorEventListener {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        TextView status =findViewById(R.id.status);
-        mFrame = findViewById(R.id.frame);
+        mFrame = findViewById(R.id.jframe);
         Button exit_button = findViewById(R.id.btn_exit);
+        status =findViewById(R.id.status);
         mCompassArrow = new CompassArrowView(getApplicationContext());
         // Get a reference to the SensorManager
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -62,11 +60,10 @@ public class MainActivity extends Activity implements SensorEventListener {
         // ad placement
         MobileAds.initialize(this,"ca-app-pub-6944210613333060~1927348080");
         AdView compass_ad = findViewById(R.id.adView);
-//        av.setAdSize(AdSize.BANNER);
-//        av.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
+       // compass_ad.setAdSize(AdSize.BANNER);
+       // compass_ad.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
         AdRequest comp_adreq = new AdRequest.Builder().build();
         compass_ad.loadAd(comp_adreq);
-
 
         // Get a reference to the magnetometer
         magnetometer = mSensorManager
@@ -85,30 +82,29 @@ public class MainActivity extends Activity implements SensorEventListener {
         // Exit unless both sensors are available
         if (null == accelerometer & null == magnetometer ) {
 
-            status.setText("Magnetometer and Accelerometer both sensors  not found cannot run");
+            status.setText("Magnetometer and Accelerometer both sensors not found. Application cannot run.");
             exit_button.setEnabled(true);
+            both = 1;
 
         } else if (null == magnetometer) {
 
-            status.setText("Magnetometer not found cannot run");
+            status.setText("Accelerometer found but Magnetometer is not found in this phone which is required so cannot run the app");
             exit_button.setEnabled(true);
-
 
         } else if (null == accelerometer ) {
 
-
-            status.setText("Accelerometer not found cannot run");
+            status.setText("Magnetometer found but Accelerometer  is not found in this phone which is required so cannot run the app");
             exit_button.setEnabled(true);
 
-        } else {
+            }
+
+        else
+
+            {
 
             mFrame.addView(mCompassArrow);
-//            status.setText("");
-//            exit_button.setEnabled(false);
-//            exit_button.setVisibility(View.INVISIBLE);
 
         }
-
         }
 
 
@@ -126,6 +122,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 
         mSensorManager.registerListener(this, magnetometer,
                 SensorManager.SENSOR_DELAY_NORMAL);
+
+
     }
 
     @Override
@@ -134,8 +132,9 @@ public class MainActivity extends Activity implements SensorEventListener {
 
         // Unregister all sensors
         mSensorManager.unregisterListener(this);
-        Toast.makeText(this, "Accelerometer and Magnetometer Dis-engaged", Toast.LENGTH_LONG).show();
-
+        if (both ==0) {
+            Toast.makeText(this, "Acquired Sensors Dis-engaged", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -178,6 +177,9 @@ public class MainActivity extends Activity implements SensorEventListener {
 
                 float orientationMatrix[] = new float[3];
 
+                status.setText("Accelerometer & Magnetometer acquired");
+
+
                 // Returns the device's orientation given
                 // the rotationMatrix
 
@@ -211,7 +213,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     public class CompassArrowView extends View {
 
         Bitmap mBitmap = BitmapFactory.decodeResource(getResources(),
-                R.drawable.compass_medium);
+                R.drawable.arrow);
         int mBitmapWidth = mBitmap.getWidth();
 
         // Height and Width of Main View
