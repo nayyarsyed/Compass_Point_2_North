@@ -4,8 +4,8 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
-        applicationId "com.example.compass"
-        minSdkVersion 22
+        applicationId "com.nayyar.compass"
+        minSdkVersion 15
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -26,6 +26,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    implementation 'com.google.android.gms:play-services-ads:18.2.0'
+    //implementation 'com.google.android.gms:play-services-ads:18.2.0'
+
+    implementation 'com.google.android.gms:play-services-ads:15.0.1'
+    implementation 'com.amazon.android:mobile-ads:6.0.0'
 
 }

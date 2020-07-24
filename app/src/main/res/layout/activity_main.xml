@@ -29,7 +29,8 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="49dp"
+        android:layout_gravity="center_horizontal"
         android:padding="5dp"
         android:paddingStart="5dp"
         android:paddingLeft="5dp"
@@ -40,57 +41,37 @@
         android:text="Note: Please ensure to place the mobile on a firm place best on a ground or table with no tilting or shaking for best results. This App needs Magnetometer and Accelerometer"
         android:textAlignment="center"
         android:textColor="#3F51B5"
-        android:textSize="14sp"
+        android:textSize="10sp"
         android:typeface="monospace" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <TextView
+        android:id="@+id/status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/colorAccent" />
 
-        <TextView
-            android:id="@+id/status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/colorAccent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/jframe"
-            android:layout_width="350dp"
-            android:layout_height="350dp"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
             android:layout_marginTop="36dp"
             android:layout_marginBottom="8dp"
             android:gravity="center"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/btn_exit"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.51"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/status">
+            android:orientation="vertical">
 
-
-            <!--<com.google.android.gms.ads.AdView
-                xmlns:ads="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/adView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="center"
-                app:adSize="BANNER"
-                app:adUnitId="ca-app-pub-6944210613333060/7528125409">
-
-            </com.google.android.gms.ads.AdView>-->
 
         </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_exit"
@@ -101,14 +82,25 @@
         android:text="Exit"
         android:textAlignment="center" />
 
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView"
+    <com.amazon.device.ads.AdLayout
+        android:id="@+id/ad_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        app:adSize="BANNER"
-        app:adUnitId="ca-app-pub-6944210613333060/7528125409"></com.google.android.gms.ads.AdView>
+        android:text="Disclaimer : Should not be used in emergency situations. Sharer / owner / advertiser / Dev of this app does not hold any liability / loss what so ever in case of any accident / loss / issues in any case."
+        android:textSize="12sp" />
+    <!-- <com.google.android.gms.ads.AdView
+         android:id="@+id/adView"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignParentBottom="true"
+         android:layout_centerHorizontal="true"
+         android:layout_gravity="center"
+         app:adSize="BANNER"
+         app:adUnitId="ca-app-pub-6944210613333060/7528125409"></com.google.android.gms.ads.AdView>-->
 
 </LinearLayout>

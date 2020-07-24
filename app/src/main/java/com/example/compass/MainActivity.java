@@ -11,21 +11,28 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
+
+import com.amazon.device.ads.AdLayout;
+import com.amazon.device.ads.AdRegistration;
+
 
 public class MainActivity extends Activity implements SensorEventListener {
 
-    @SuppressWarnings("unused")
+
     private String TAG = "SensorCompass";
     public int both;
+
+
+    private AdLayout adView;
+    private static final String APP_KEY = "sample-app-v1_pub-2"; // Sample Application Key. Replace this value with your Application Key.
+    private static final String LOG_TAG = "SimpleAdSample"; // Tag used to prefix all log messages.
+
     // Main View
     private LinearLayout mFrame;
     // Sensors & SensorManager
@@ -47,6 +54,30 @@ public class MainActivity extends Activity implements SensorEventListener {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // For debugging purposes enable logging, but disable for production builds.
+        AdRegistration.enableLogging(true);
+        // For debugging purposes flag all ad requests as tests, but set to false for production builds.
+        AdRegistration.enableTesting(true);
+
+        this.adView = (AdLayout) findViewById(R.id.ad_view);
+        //this.adView.setListener(new SampleAdListener());
+
+
+
+        try {
+            AdRegistration.setAppKey(APP_KEY);
+        } catch (final IllegalArgumentException e) {
+            Log.e(LOG_TAG, "IllegalArgumentException thrown: " + e.toString());
+            return;
+        }
+        loadAd();
+
+
+
+
+
+
         mFrame = findViewById(R.id.jframe);
         Button exit_button = findViewById(R.id.btn_exit);
         status =findViewById(R.id.status);
@@ -58,12 +89,10 @@ public class MainActivity extends Activity implements SensorEventListener {
         accelerometer = mSensorManager
                 .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         // ad placement
-        MobileAds.initialize(this,"ca-app-pub-6944210613333060~1927348080");
+       /* MobileAds.initialize(this,"ca-app-pub-6944210613333060~1927348080");
         AdView compass_ad = findViewById(R.id.adView);
-       // compass_ad.setAdSize(AdSize.BANNER);
-       // compass_ad.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
         AdRequest comp_adreq = new AdRequest.Builder().build();
-        compass_ad.loadAd(comp_adreq);
+        compass_ad.loadAd(comp_adreq);*/
 
         // Get a reference to the magnetometer
         magnetometer = mSensorManager
@@ -264,4 +293,18 @@ public class MainActivity extends Activity implements SensorEventListener {
 
         }
     }
+
+    public void loadAd() {
+        // Load an ad with default ad targeting.
+        this.adView.loadAd();
+
+        // Note: You can choose to provide additional targeting information to modify how your ads
+        // are targeted to your users. This is done via an AdTargetingOptions parameter that's passed
+        // to the loadAd call. See an example below:
+        //
+        //    final AdTargetingOptions adOptions = new AdTargetingOptions();
+        //    adOptions.enableGeoLocation(true);
+        //    this.adView.loadAd(adOptions);
+    }
+
 }
